@@ -7,14 +7,16 @@ using System.Threading.Tasks;
 
 namespace binarysearch_benchmarks
 {
-    class Program
+    public class Program
     {
+
+        public static int NumberOfTimesCalled = 0;
         static void Main(string[] args)
         {
             var numberList = new int[] { 2, 6, 8, 12, 15, 16, 22, 44, 74 };
             var key = 15;
             BenchmarkIterative(numberList, key);
-
+            BenchmarkRecursive(numberList, key);
             Console.ReadKey();
         }
 
@@ -43,8 +45,6 @@ namespace binarysearch_benchmarks
                 }
             }
 
-
-
             return "Not Found";
         }
 
@@ -67,6 +67,49 @@ namespace binarysearch_benchmarks
             Console.WriteLine("*****************************");
             double nanoseconds = (ticks / Stopwatch.Frequency) * 1000000000;
             Console.WriteLine("{0:N2} ns: ", nanoseconds / n);          
+        }
+        
+        public static void BenchmarkRecursive(int[] arr, int key)
+        {
+            var stopwatch = new Stopwatch();
+            var n = 1000000;
+            var ticks = 0d;
+
+            for (int i = 0; i < n; i++)
+            {
+                stopwatch.Reset();
+                stopwatch.Start();
+                recursiveBenchmark(arr, key, 0, arr.Length - 1);
+                ticks += stopwatch.ElapsedTicks;
+            };
+
+            Console.WriteLine("Benchmarking Recursive Search");
+            Console.WriteLine("*****************************");
+            double nanoseconds = (ticks / Stopwatch.Frequency) * 1000000000;
+            Console.WriteLine("{0:N2} ns: ", nanoseconds / n);
+        }
+
+        public static void recursiveBenchmark(int[] array, int NumberToSearchFor, int min, int max)
+        {
+            NumberOfTimesCalled++;
+            if (min > max)
+            {
+                Console.WriteLine("min is bigger than max which is 0.");
+            }
+            else
+            {
+                int mid = (min + max) / 2;
+                if(NumberToSearchFor == array[mid])
+                {
+                }else if(NumberToSearchFor < array[mid])
+                {
+                    recursiveBenchmark(array, NumberToSearchFor, min, mid-1);
+                }
+                else
+                {
+                    recursiveBenchmark(array, NumberToSearchFor, mid+1, max);
+                }
+            }  
         }
     }
 }
