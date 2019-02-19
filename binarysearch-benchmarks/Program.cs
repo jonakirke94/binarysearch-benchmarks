@@ -79,7 +79,7 @@ namespace binarysearch_benchmarks
             {
                 stopwatch.Reset();
                 stopwatch.Start();
-                recursiveBenchmark(arr, key, 0, arr.Length - 1);
+                RecursiveBenchmark(arr, key, 0, arr.Length - 1);
                 ticks += stopwatch.ElapsedTicks;
             };
 
@@ -89,7 +89,7 @@ namespace binarysearch_benchmarks
             Console.WriteLine("{0:N2} ns: ", nanoseconds / n);
         }
 
-        public static void recursiveBenchmark(int[] array, int NumberToSearchFor, int min, int max)
+        public static void RecursiveBenchmark(int[] array, int NumberToSearchFor, int min, int max)
         {
             NumberOfTimesCalled++;
             if (min > max)
@@ -103,11 +103,11 @@ namespace binarysearch_benchmarks
                 {
                 }else if(NumberToSearchFor < array[mid])
                 {
-                    recursiveBenchmark(array, NumberToSearchFor, min, mid-1);
+                    RecursiveBenchmark(array, NumberToSearchFor, min, mid-1);
                 }
                 else
                 {
-                    recursiveBenchmark(array, NumberToSearchFor, mid+1, max);
+                    RecursiveBenchmark(array, NumberToSearchFor, mid+1, max);
                 }
             }  
         }
